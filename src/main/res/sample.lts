@@ -1,5 +1,5 @@
 const MAX_ID = 3
-range DOC_ID = 1 .. MAX_ID
+range DOC_ID = 0 .. MAX_ID
 
 set PRINT_Actions = {print[DOC_ID], acquire, release, serviceprinter}
 set All_Users = {ad, u1, u2}
@@ -8,10 +8,8 @@ PRINTER = PRINTER_FREE,
 PRINTER_FREE = (acquire -> PRINTER_INUSE),
 PRINTER_INUSE = (print[doc: DOC_ID] -> release -> PRINTER_FREE | serviceprinter -> release -> PRINTER_FREE).
 
-User(DOC = 1) = (acquire -> print[DOC] -> release -> USer) +PRINT_Actions.
+User(DOC = 1) = (acquire -> print[DOC] -> release -> User) + PRINT_Actions.
 
 Admin = (acquire -> serviceprinter -> release -> Admin) + PRINT_Actions.
 
-|| MutualExclusion_PRINTER = (All_Users :: PRINTER
-								|| u1 : User(1) || u2 : User(2)
-								|| ad : Admin).
+|| MutualExclusion_PRINTER = (All_Users :: PRINTER || u1 : User(1) || u2 : User(2) || ad : Admin).
