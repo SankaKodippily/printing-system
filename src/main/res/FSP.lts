@@ -1,12 +1,14 @@
-// Initial Number of pages the printer has
-const NO_OF_PAGES = 3
+range PAGES = 0..3
 
 // Printer Process
-PRINTER (N = NO_OF_PAGES) = FREE_PRINTER,
-FREE_PRINTER = (acquire_printer -> PRINTER_IN_USE[N]),
-PRINTER_IN_USE[i:0..N] = (when(i > 0) print_document -> release_printer -> FREE_PRINTER | when(i == 0) refill_paper -> release_printer -> FREE_PRINTER).
+PRINTER = FREE_PRINTER,
+FREE_PRINTER = (acquire_printer -> PRINTER_IN_USE),
+PRINTER_IN_USE = (print_document -> release_printer -> FREE_PRINTER | refill_paper -> release_printer -> FREE_PRINTER).
 
+// Student Process
+STUDENT = (acquire_printer -> PRINT),
+PRINT = (pages_left[x:PAGES] -> if (x > 0) then (print_document -> release_printer -> STUDENT) else (release_printer -> STUDENT)).
 
-STUDENT (DOCS = 1) = (acquire_printer -> print_document[DOCS] -> release_printer -> STUDENT).
-
-TECHNICIAN = (acquire_printer -> refill_paper -> release_printer -> TECHNICIAN).
+// Technician Process
+TECHNICIAN = (acquire_printer -> REFILL),
+REFILL = (pages_left[x:PAGES] -> if (x > 0) then (release_printer -> TECHNICIAN) else (refill_paper -> release_printer -> TECHNICIAN)).
