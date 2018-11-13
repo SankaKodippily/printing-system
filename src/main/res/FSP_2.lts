@@ -3,12 +3,12 @@ range PAGES = 0..3
 // Printer Process
 PRINTER = FREE_PRINTER,
 FREE_PRINTER = (acquire_printer -> PRINTER_IN_USE),
-PRINTER_IN_USE = (pages_left[x:PAGES] -> if (x > 0) then (print_document -> release_printer -> FREE_PRINTER) else (refill_paper -> release_printer -> FREE_PRINTER)).
+PRINTER_IN_USE = (print_document -> release_printer -> FREE_PRINTER | refill_paper -> release_printer -> FREE_PRINTER).
 
 // Student Process
-STUDENT (DOCS = 1) = (acquire_printer -> PRINT),
-PRINT = (print_document[1..DOCS] -> release_printer -> STUDENT).
+STUDENT = (acquire_printer -> PRINT),
+PRINT = (pages_left[x:PAGES] -> if (x > 0) then (print_document -> release_printer -> STUDENT) else (release_printer -> STUDENT)).
 
 // Technician Process
 TECHNICIAN = (acquire_printer -> REFILL),
-REFILL = (pages_left[x:PAGES] -> if (x == 0) then (refill_paper -> release_printer -> TECHNICIAN) else (release_printer -> TECHNICIAN)).
+REFILL = (pages_left[x:PAGES] -> if (x > 0) then (release_printer -> TECHNICIAN) else (refill_paper -> release_printer -> TECHNICIAN)).
