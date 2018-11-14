@@ -1,6 +1,6 @@
 range PAGES = 0..3
 
-set PRINT_ACTIONS = {acquire, pages_left[PAGES], print, release, refill}
+set PRINT_ACTIONS = {acquire, print, release, refill}
 
 // Printer Process
 PRINTER = FREE_PRINTER,
@@ -8,11 +8,11 @@ FREE_PRINTER = (acquire -> PRINTER_IN_USE),
 PRINTER_IN_USE = (pages_left[x:PAGES] -> if (x > 0) then (print -> release -> FREE_PRINTER) else (refill -> release -> FREE_PRINTER)).
 
 // Student Process
-STUDENT (DOCS = 1) = (acquire -> PRINT[1]),
-PRINT[i: 1..DOCS] = (pages_left[x:PAGES] -> if (x > 0) then (print -> if (i < DOCS) then (release -> acquire -> PRINT[i+1]) else (release -> END)) else (release -> STUDENT)).
+STUDENT (DOCS = 2) = (acquire -> PRINT[1]),
+PRINT[i: 1..DOCS] = (pages_left[x:PAGES] -> if (x > 0) then (print -> if (i < DOCS) then (release -> acquire -> PRINT[i+1]) else (release -> END)) else (release -> acquire -> PRINT[i])) + PRINT_ACTIONS.
 
 // Technician Process
 TECHNICIAN = (acquire -> REFILL),
-REFILL = (pages_left[x:PAGES] -> if (x == 0) then (refill -> release -> TECHNICIAN) else (release -> TECHNICIAN)).
+REFILL = (pages_left[x:PAGES] -> if (x == 0) then (refill -> release -> TECHNICIAN) else (release -> TECHNICIAN)) + PRINT_ACTIONS.
 
-//|| PRINTING_SYSTEM = ({s1, s2, t} :: PRINTER || s1: STUDENT(1) || s2: STUDENT(2) || t: TECHNICIAN).
+|| PRINTING_SYSTEM = ({s1, s2, t} :: PRINTER || s1: STUDENT(1) || s2: STUDENT(2) || t: TECHNICIAN).
