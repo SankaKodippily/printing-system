@@ -1,6 +1,7 @@
 package io.github.moizalicious.printer;
 
 import io.github.moizalicious.document.Document;
+import io.github.moizalicious.sleeper.ThreadSleeper;
 
 public class LaserPrinter implements ServicePrinter {
 
@@ -20,9 +21,17 @@ public class LaserPrinter implements ServicePrinter {
     public synchronized void replaceTonerCartridge() {
         if (tonerLevel < Minimum_Toner_Level) {
             tonerLevel = PagesPerTonerCartridge;
-            System.out.println("Toner Replace Successfully, Toner Level: " + tonerLevel + "\n");
+            System.out.println("Toner Replaced Successfully, Toner Level: " + tonerLevel + "\n");
+            notifyAll();
+//            ThreadSleeper.sleep(2000);
         } else {
-            System.out.println("Unable To Replace Toner: Toner Already Full\n");
+            // TODO check whether this is actually needed
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.err.println(e);
+            }
+//            System.out.println("Unable To Replace Toner: Toner Level - " + tonerLevel + "\n");
         }
     }
 
@@ -31,8 +40,16 @@ public class LaserPrinter implements ServicePrinter {
         if (paperLevel < 200) {
             paperLevel = paperLevel + SheetsPerPack;
             System.out.println("Paper Refilled Successfully, Paper Level: " + paperLevel + "\n");
+            notifyAll();
+//            ThreadSleeper.sleep(2000);
         } else {
-            System.out.println("Unable To Refill Paper: Paper Level Greater Than 200\n");
+            // TODO check whether this is actually needed
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.err.println(e);
+            }
+//            System.out.println("Unable To Refill Paper: Paper Level - " + paperLevel + "\n");
         }
     }
 
@@ -45,7 +62,16 @@ public class LaserPrinter implements ServicePrinter {
             System.out.println(document.getDocumentName() + " by " + document.getUserID() + " printed successfully");
             System.out.println(document.toString());
             System.out.println(toString() + "\n");
+            notifyAll();
+//            ThreadSleeper.sleep(2000);
         } else {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                System.err.println(e);
+            }
+            // TODO replace with a while loop instead of using recursion
+            printDocument(document);
             System.out.println("Unable To Print Document: Insufficient Toner/Paper Level");
             System.out.println(document.toString());
             System.out.println(toString() + "\n");

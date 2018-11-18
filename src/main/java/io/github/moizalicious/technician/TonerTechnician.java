@@ -15,10 +15,14 @@ public class TonerTechnician extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            laserPrinter.replaceTonerCartridge();
-            ThreadSleeper.sleep(5000);
-        }
+        laserPrinter.replaceTonerCartridge();
+        ThreadSleeper.sleep(5000);
+
+        laserPrinter.replaceTonerCartridge();
+        ThreadSleeper.sleep(5000);
+
+        laserPrinter.replaceTonerCartridge();
+        ThreadSleeper.sleep(5000);
     }
 
 }

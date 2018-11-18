@@ -19,30 +19,30 @@ public class Student extends Thread {
     public Student(String name, LaserPrinter laserPrinter) {
         this.name = name;
         this.laserPrinter = laserPrinter;
-
-        document1 = new Document(name, "Document 1", (int) ((Math.random() * 90) + 10));
-        document2 = new Document(name, "Document 2", (int) ((Math.random() * 90) + 10));
-        document3 = new Document(name, "Document 3", (int) ((Math.random() * 90) + 10));
-        document4 = new Document(name, "Document 4", (int) ((Math.random() * 90) + 10));
-        document5 = new Document(name, "Document 5", (int) ((Math.random() * 90) + 10));
+        document1 = new Document(name, "Document 1", (int) ((Math.random() * 19) + 1));
+        document2 = new Document(name, "Document 2", (int) ((Math.random() * 19) + 1));
+        document3 = new Document(name, "Document 3", (int) ((Math.random() * 19) + 1));
+        document4 = new Document(name, "Document 4", (int) ((Math.random() * 19) + 1));
+        document5 = new Document(name, "Document 5", (int) ((Math.random() * 19) + 1));
     }
 
     @Override
     public void run() {
         laserPrinter.printDocument(document1);
-        ThreadSleeper.sleep(1000);
+        ThreadSleeper.sleep(2000);
 
         laserPrinter.printDocument(document2);
-        ThreadSleeper.sleep(1000);
+        ThreadSleeper.sleep(2000);
 
         laserPrinter.printDocument(document3);
-        ThreadSleeper.sleep(1000);
+        ThreadSleeper.sleep(2000);
 
         laserPrinter.printDocument(document4);
-        ThreadSleeper.sleep(1000);
+        ThreadSleeper.sleep(2000);
 
         laserPrinter.printDocument(document5);
-        ThreadSleeper.sleep(1000);
+        ThreadSleeper.sleep(2000);
+
     }
 
 }
