@@ -22,17 +22,19 @@ public class LaserPrinter implements ServicePrinter {
         if (tonerLevel < Minimum_Toner_Level) {
             tonerLevel = PagesPerTonerCartridge;
             System.out.println("Toner Replaced Successfully, Toner Level: " + tonerLevel + "\n");
-            notifyAll();
-//            ThreadSleeper.sleep(2000);
-        } else {
+            ThreadSleeper.sleep(2000);
+        } /*else {
             // TODO check whether this is actually needed
             try {
                 wait();
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
-//            System.out.println("Unable To Replace Toner: Toner Level - " + tonerLevel + "\n");
-        }
+            replaceTonerCartridge();
+            System.out.println("Passed Wait For Toner");
+        }*/
+        notifyAll();
+
     }
 
     @Override
@@ -40,42 +42,38 @@ public class LaserPrinter implements ServicePrinter {
         if (paperLevel < 200) {
             paperLevel = paperLevel + SheetsPerPack;
             System.out.println("Paper Refilled Successfully, Paper Level: " + paperLevel + "\n");
-            notifyAll();
-//            ThreadSleeper.sleep(2000);
-        } else {
+            ThreadSleeper.sleep(2000);
+        } /*else {
             // TODO check whether this is actually needed
             try {
                 wait();
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
-//            System.out.println("Unable To Refill Paper: Paper Level - " + paperLevel + "\n");
-        }
+            refillPaper();
+            System.out.println("Passed Wait For Refill");
+        }*/
+        notifyAll();
+
     }
 
     @Override
     public synchronized void printDocument(Document document) {
-        if (paperLevel > document.getNumberOfPages() && tonerLevel > document.getNumberOfPages()) {
-            paperLevel = paperLevel - document.getNumberOfPages();
-            tonerLevel = tonerLevel - document.getNumberOfPages();
-            documentsPrinted++;
-            System.out.println(document.getDocumentName() + " by " + document.getUserID() + " printed successfully");
-            System.out.println(document.toString());
-            System.out.println(toString() + "\n");
-            notifyAll();
-//            ThreadSleeper.sleep(2000);
-        } else {
+        while (!(paperLevel > document.getNumberOfPages() && tonerLevel > document.getNumberOfPages() * 2)) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
-            // TODO replace with a while loop instead of using recursion
-            printDocument(document);
-            System.out.println("Unable To Print Document: Insufficient Toner/Paper Level");
-            System.out.println(document.toString());
-            System.out.println(toString() + "\n");
         }
+        paperLevel = paperLevel - document.getNumberOfPages();
+        tonerLevel = tonerLevel - (document.getNumberOfPages() * 2);
+        documentsPrinted++;
+        System.out.println(document.getDocumentName() + " by " + document.getUserID() + " printed successfully");
+        System.out.println(document.toString());
+        System.out.println(toString() + "\n");
+        ThreadSleeper.sleep(2000);
+        notifyAll();
     }
 
     public String toString() {
