@@ -2,6 +2,7 @@ package io.github.moizalicious.student;
 
 import io.github.moizalicious.document.Document;
 import io.github.moizalicious.printer.LaserPrinter;
+import io.github.moizalicious.sleeper.ThreadSleeper;
 
 public class Student extends Thread {
 
@@ -27,17 +28,23 @@ public class Student extends Thread {
 
     private int generateRandomNoOfPages() {
         int min = 1;
-        int max = 30;
+        int max = 20;
         return (int) ((Math.random() * (max - min)) + min);
     }
 
     @Override
     public void run() {
+        // TODO: He/she should "sleep" for a random amount of time between each printing request.
         laserPrinter.printDocument(document1);
+        ThreadSleeper.sleepRandom(1000, 4000);
         laserPrinter.printDocument(document2);
+        ThreadSleeper.sleepRandom(1000, 4000);
         laserPrinter.printDocument(document3);
+        ThreadSleeper.sleepRandom(1000, 4000);
         laserPrinter.printDocument(document4);
+        ThreadSleeper.sleepRandom(1000, 4000);
         laserPrinter.printDocument(document5);
+
         System.out.println(name + " has completed printing it's documents\n");
     }
 

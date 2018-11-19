@@ -10,7 +10,7 @@ public class LaserPrinter implements ServicePrinter {
     private int tonerLevel;
     private int documentsPrinted;
 
-    public LaserPrinter( String printerId) {
+    public LaserPrinter(String printerId) {
         this.printerId = printerId;
         this.paperLevel = Full_Paper_Tray;
         this.tonerLevel =  Full_Toner_Level;
@@ -19,47 +19,37 @@ public class LaserPrinter implements ServicePrinter {
 
     @Override
     public synchronized void replaceTonerCartridge() {
-        if (tonerLevel < Minimum_Toner_Level) {
-            tonerLevel = PagesPerTonerCartridge;
-            System.out.println("Toner Replaced Successfully, Toner Level: " + tonerLevel + "\n");
-            ThreadSleeper.sleep(2000);
-        } /*else {
-            // TODO check whether this is actually needed
+        while (tonerLevel > Minimum_Toner_Level) {
             try {
-                wait();
+                wait(5000);
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
-            replaceTonerCartridge();
-            System.out.println("Passed Wait For Toner");
-        }*/
+        }
+        tonerLevel = PagesPerTonerCartridge;
+        System.out.println("Toner Replaced Successfully, Toner Level: " + tonerLevel + "\n");
+        ThreadSleeper.sleep(2000);
         notifyAll();
-
     }
 
     @Override
     public synchronized void refillPaper() {
-        if (paperLevel < 200) {
-            paperLevel = paperLevel + SheetsPerPack;
-            System.out.println("Paper Refilled Successfully, Paper Level: " + paperLevel + "\n");
-            ThreadSleeper.sleep(2000);
-        } /*else {
-            // TODO check whether this is actually needed
+        while (paperLevel > (Full_Paper_Tray - SheetsPerPack)) {
             try {
-                wait();
+                wait(5000);
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
-            refillPaper();
-            System.out.println("Passed Wait For Refill");
-        }*/
+        }
+        paperLevel = paperLevel + SheetsPerPack;
+        System.out.println("Paper Refilled Successfully, Paper Level: " + paperLevel + "\n");
+        ThreadSleeper.sleep(2000);
         notifyAll();
-
     }
 
     @Override
     public synchronized void printDocument(Document document) {
-        while (!(paperLevel > document.getNumberOfPages() && tonerLevel > document.getNumberOfPages() * 2)) {
+        while (paperLevel < document.getNumberOfPages() || tonerLevel < document.getNumberOfPages()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -67,7 +57,7 @@ public class LaserPrinter implements ServicePrinter {
             }
         }
         paperLevel = paperLevel - document.getNumberOfPages();
-        tonerLevel = tonerLevel - (document.getNumberOfPages() * 2);
+        tonerLevel = tonerLevel - (document.getNumberOfPages());
         documentsPrinted++;
         System.out.println(document.getDocumentName() + " by " + document.getUserID() + " printed successfully");
         System.out.println(document.toString());

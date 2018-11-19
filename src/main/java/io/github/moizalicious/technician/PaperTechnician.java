@@ -15,13 +15,12 @@ public class PaperTechnician extends Thread {
 
     @Override
     public void run() {
-//        while (true) {
-//            laserPrinter.refillPaper();
-//        }
-        for (int i = 0; i < 3; i++) {
-            laserPrinter.refillPaper();
-            ThreadSleeper.sleep(5000);
-        }
+        laserPrinter.refillPaper();
+        ThreadSleeper.sleepRandom(1000, 4000);
+        laserPrinter.refillPaper();
+        ThreadSleeper.sleepRandom(1000, 4000);
+        laserPrinter.refillPaper();
+
         System.out.println(name + " has completed 3 rounds of paper refills\n");
     }
 }

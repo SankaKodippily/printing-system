@@ -10,4 +10,9 @@ public class ThreadSleeper {
         }
     }
 
+    public static void sleepRandom(long min, long max) {
+        int sleepTime = (int) ((Math.random() * (max - min)) + min);
+        sleep(sleepTime);
+    }
+
 }
