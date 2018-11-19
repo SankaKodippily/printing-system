@@ -1,3 +1,5 @@
+// TODO add class comments
+
 package io.github.moizalicious.printer;
 
 import io.github.moizalicious.document.Document;
@@ -17,6 +19,7 @@ public class LaserPrinter implements ServicePrinter {
         this.documentsPrinted = 0;
     }
 
+    // TODO add java comments
     @Override
     public synchronized void replaceTonerCartridge() {
         while (tonerLevel > Minimum_Toner_Level) {

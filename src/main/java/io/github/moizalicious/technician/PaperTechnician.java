@@ -8,7 +8,8 @@ public class PaperTechnician extends Thread {
     private String name;
     private LaserPrinter laserPrinter;
 
-    public PaperTechnician(String name, LaserPrinter laserPrinter) {
+    public PaperTechnician(String name, LaserPrinter laserPrinter, ThreadGroup threadGroup) {
+        super(threadGroup, name);
         this.name = name;
         this.laserPrinter = laserPrinter;
     }

@@ -16,7 +16,8 @@ public class Student extends Thread {
     private Document document4;
     private Document document5;
 
-    public Student(String name, LaserPrinter laserPrinter) {
+    public Student(String name, LaserPrinter laserPrinter, ThreadGroup threadGroup) {
+        super(threadGroup, name);
         this.name = name;
         this.laserPrinter = laserPrinter;
         document1 = new Document(name, "Document 1", generateRandomNoOfPages());
@@ -27,14 +28,13 @@ public class Student extends Thread {
     }
 
     private int generateRandomNoOfPages() {
-        int min = 1;
+        int min = 10;
         int max = 20;
         return (int) ((Math.random() * (max - min)) + min);
     }
 
     @Override
     public void run() {
-        // TODO: He/she should "sleep" for a random amount of time between each printing request.
         laserPrinter.printDocument(document1);
         ThreadSleeper.sleepRandom(1000, 4000);
         laserPrinter.printDocument(document2);

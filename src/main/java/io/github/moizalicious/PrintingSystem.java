@@ -10,22 +10,21 @@ public class PrintingSystem {
     public static void main(String[] args) {
         LaserPrinter laserPrinter = new LaserPrinter("LP001");
 
-        // TODO add these into thread groups
         ThreadGroup students = new ThreadGroup("students");
         ThreadGroup technicians = new ThreadGroup("technicians");
 
-        Student student1 = new Student("Student 1", laserPrinter);
+        Student student1 = new Student("Student 1", laserPrinter, students);
         student1.start();
-        Student student2 = new Student("Student 2", laserPrinter);
+        Student student2 = new Student("Student 2", laserPrinter, students);
         student2.start();
-        Student student3 = new Student("Student 3", laserPrinter);
+        Student student3 = new Student("Student 3", laserPrinter, students);
         student3.start();
-        Student student4 = new Student("Student 4", laserPrinter);
+        Student student4 = new Student("Student 4", laserPrinter, students);
         student4.start();
 
-        PaperTechnician paperTechnician = new PaperTechnician("Paper Man", laserPrinter);
+        PaperTechnician paperTechnician = new PaperTechnician("Paper Man", laserPrinter, technicians);
         paperTechnician.start();
-        TonerTechnician tonerTechnician = new TonerTechnician("Toner Man", laserPrinter);
+        TonerTechnician tonerTechnician = new TonerTechnician("Toner Man", laserPrinter, technicians);
         tonerTechnician.start();
     }
 
