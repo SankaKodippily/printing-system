@@ -7,7 +7,6 @@ import io.github.moizalicious.sleeper.ThreadSleeper;
 public class Student extends Thread {
 
     private String name;
-
     private LaserPrinter laserPrinter;
 
     private Document document1;

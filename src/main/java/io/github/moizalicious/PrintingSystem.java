@@ -26,6 +26,14 @@ public class PrintingSystem {
         paperTechnician.start();
         TonerTechnician tonerTechnician = new TonerTechnician("Toner Man", laserPrinter, technicians);
         tonerTechnician.start();
+
+        while (students.activeCount() > 0) {
+            // DO NOTHING
+            continue;
+        }
+        System.out.println("Final Laser Printer Status After All Documents Printed:");
+        System.out.println(laserPrinter.toString());
+        System.exit(0);
     }
 
 }
