@@ -1,13 +1,11 @@
-range PAGES = 0..3
+const MIN_PAGES = 0
+const MAX_PAGES = 3
 
 set PRINT_ACTIONS = {student.acquire, technician.acquire, print, refill, release}
 
 // Printer Process
-PRINTER(PAGES = 3) = PRINTER_FREE,
-PRINTER_FREE = PRINTER_IN_USE[PAGES],
-PRINTER_IN_USE[p: 0..PAGES] = ( when(p > 0) student.acquire -> print -> release -> PRINTER_IN_USE[p-1] | when(p == 0) technician.acquire -> refill -> release -> PRINTER_FREE ).
-
-//(pages_left[x:PAGES] -> if (x > 0) then (print -> release -> PRINTER_FREE | release -> PRINTER_FREE) else (refill -> release -> PRINTER_FREE | release -> PRINTER_FREE)).
+PRINTER(PAGES = MAX_PAGES) = PRINT_OR_REFILL[PAGES],
+PRINT_OR_REFILL[p: MIN_PAGES..MAX_PAGES] = ( when(p > 0) student.acquire -> print -> release -> PRINT_OR_REFILL[p-1] | when(p == 0) technician.acquire -> refill -> release -> PRINTER ).
 
 // Student Process
 STUDENT (DOCS = 1) = (student.acquire -> PRINT[1]),
