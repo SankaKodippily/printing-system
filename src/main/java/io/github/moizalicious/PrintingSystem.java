@@ -31,6 +31,9 @@ public class PrintingSystem {
             // DO NOTHING
             continue;
         }
+        if (technicians.activeCount() > 0) {
+            // TODO interupt the technicians thread group
+        }
         System.out.println("Final Laser Printer Status After All Documents Printed:");
         System.out.println(laserPrinter.toString());
         System.exit(0);
