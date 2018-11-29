@@ -1,3 +1,7 @@
+/**
+ * Thread class to represent a particular student who wants to print documents.
+ */
+
 package io.github.moizalicious.student;
 
 import io.github.moizalicious.document.Document;
@@ -26,12 +30,20 @@ public class Student extends Thread {
         document5 = new Document(name, "Document 5", generateRandomNoOfPages());
     }
 
+    /**
+     * Returns a random integer between a given range.
+     *
+     * @return Random integer generated
+     */
     private int generateRandomNoOfPages() {
         int min = 10;
         int max = 20;
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    /**
+     * Method executed when the Thread is started.
+     */
     @Override
     public void run() {
         laserPrinter.printDocument(document1);

@@ -1,3 +1,7 @@
+/**
+ * Thread class to represent a Toner Technician.
+ */
+
 package io.github.moizalicious.technician;
 
 import io.github.moizalicious.printer.LaserPrinter;
@@ -16,6 +20,9 @@ public class TonerTechnician extends Thread {
         this.running = true;
     }
 
+    /**
+     * Method executed when the thread is started.
+     */
     @Override
     public void run() {
         int c = 0;
@@ -29,6 +36,9 @@ public class TonerTechnician extends Thread {
         System.out.println(name + " has completed it's round(s) of toner replacements\n");
     }
 
+    /**
+     * Method to safely stop running the thread.
+     */
     public void terminate() {
         running = false;
     }

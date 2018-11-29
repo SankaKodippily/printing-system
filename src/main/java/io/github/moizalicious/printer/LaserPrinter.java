@@ -1,4 +1,6 @@
-// TODO add class comments
+/**
+ * Monitor class which imitates a mutually exclusive laser printer.
+ */
 
 package io.github.moizalicious.printer;
 
@@ -21,7 +23,9 @@ public class LaserPrinter implements ServicePrinter {
         this.running = true;
     }
 
-    // TODO add java comments
+    /**
+     * Method to replace the toner cartridge.
+     */
     @Override
     public synchronized void replaceTonerCartridge() {
         while (running && tonerLevel > Minimum_Toner_Level) {
@@ -39,6 +43,9 @@ public class LaserPrinter implements ServicePrinter {
         }
     }
 
+    /**
+     * Method to refill the paper tray.
+     */
     @Override
     public synchronized void refillPaper() {
         while (running && paperLevel > (Full_Paper_Tray - SheetsPerPack)) {
@@ -56,6 +63,11 @@ public class LaserPrinter implements ServicePrinter {
         }
     }
 
+    /**
+     * Method to print a specific document
+     *
+     * @param document The document to be printed
+     */
     @Override
     public synchronized void printDocument(Document document) {
         while (running && (paperLevel < document.getNumberOfPages() || tonerLevel < document.getNumberOfPages())) {
@@ -77,10 +89,18 @@ public class LaserPrinter implements ServicePrinter {
         }
     }
 
+    /**
+     * Method to stop any new threads from accessing the printer.
+     */
     public void terminate() {
         running = false;
     }
 
+    /**
+     * Method to display the current status of the printer.
+     *
+     * @return The current status of the printer
+     */
     public String toString() {
         return "[ Printer ID: " + printerId +
                 ", Paper Level: " + paperLevel +

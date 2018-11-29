@@ -1,3 +1,8 @@
+/**
+ * Main class that creates and starts the student and
+ * technician threads, and the mutually exclusive laser printer.
+ */
+
 package io.github.moizalicious;
 
 import io.github.moizalicious.printer.LaserPrinter;
