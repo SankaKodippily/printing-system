@@ -27,16 +27,31 @@ public class PrintingSystem {
         TonerTechnician tonerTechnician = new TonerTechnician("Toner Man", laserPrinter, technicians);
         tonerTechnician.start();
 
-        while (students.activeCount() > 0) {
-            // DO NOTHING
-            continue;
+        // Wait till all the student threads have completed running
+        while (students.activeCount() > 0) { /* DO NOTHING */ continue; }
+
+        // Stop allowing threads to access the Laser Printer
+        laserPrinter.terminate();
+
+        // If Paper Technician thread is still alive then safely stop the thread
+        if (paperTechnician.isAlive()) {
+            // Safely terminate the Paper Technician thread
+            paperTechnician.terminate();
+            // Wait till the Paper Technician thread is terminated
+            while (paperTechnician.isAlive()) { /* DO NOTHING */ continue; }
         }
-        if (technicians.activeCount() > 0) {
-            // TODO interupt the technicians thread group
+
+        // If Toner Technician thread is still alive then safely stop the thread
+        if (tonerTechnician.isAlive()) {
+            // Safely terminate the Toner Technician thread
+            tonerTechnician.terminate();
+            // Wait till the Toner Technician thread is terminated
+            while (tonerTechnician.isAlive()) { /* DO NOTHING */ continue; }
         }
+
+        // Print out final status of the printer
         System.out.println("Final Laser Printer Status After All Documents Printed:");
         System.out.println(laserPrinter.toString());
-        System.exit(0);
     }
 
 }

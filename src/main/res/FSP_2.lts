@@ -19,4 +19,4 @@ TECHNICIAN = (technician.acquire -> REFILL),
 REFILL = (refill -> release -> TECHNICIAN) + PRINT_ACTIONS.
 
 // Mutually Exclusive Printing System
-|| PRINTING_SYSTEM = ({s1, s2, t} :: PRINTER(3) || s1: STUDENT(2) || s2: STUDENT(3) || t: TECHNICIAN).
+|| PRINTING_SYSTEM = ({s1, s2, t} :: PRINTER || s1: STUDENT(2) || s2: STUDENT(3) || t: TECHNICIAN).

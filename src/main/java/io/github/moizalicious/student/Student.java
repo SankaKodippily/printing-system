@@ -43,7 +43,6 @@ public class Student extends Thread {
         laserPrinter.printDocument(document4);
         ThreadSleeper.sleepRandom(1000, 4000);
         laserPrinter.printDocument(document5);
-
         System.out.println(name + " has completed printing it's documents\n");
     }
 
