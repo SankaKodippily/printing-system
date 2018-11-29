@@ -1,12 +1,11 @@
-/**
- * Thread class to represent a Toner Technician.
- */
-
 package io.github.moizalicious.technician;
 
 import io.github.moizalicious.printer.LaserPrinter;
 import io.github.moizalicious.sleeper.ThreadSleeper;
 
+/**
+ * Thread class to represent a Toner Technician.
+ */
 public class TonerTechnician extends Thread {
 
     private String name;

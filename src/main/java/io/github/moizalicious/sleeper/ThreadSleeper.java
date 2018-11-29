@@ -1,9 +1,8 @@
+package io.github.moizalicious.sleeper;
+
 /**
  * Utility class used to call the static Thread.sleep() method.
  */
-
-package io.github.moizalicious.sleeper;
-
 public class ThreadSleeper {
 
     /**

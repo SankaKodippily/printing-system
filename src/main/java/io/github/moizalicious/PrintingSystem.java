@@ -1,8 +1,3 @@
-/**
- * Main class that creates and starts the student and
- * technician threads, and the mutually exclusive laser printer.
- */
-
 package io.github.moizalicious;
 
 import io.github.moizalicious.printer.LaserPrinter;
@@ -10,6 +5,10 @@ import io.github.moizalicious.student.Student;
 import io.github.moizalicious.technician.PaperTechnician;
 import io.github.moizalicious.technician.TonerTechnician;
 
+/**
+ * Main class that creates and starts the student and
+ * technician threads, and the mutually exclusive laser printer.
+ */
 public class PrintingSystem {
 
     public static void main(String[] args) {

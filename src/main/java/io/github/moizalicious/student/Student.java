@@ -1,13 +1,12 @@
-/**
- * Thread class to represent a particular student who wants to print documents.
- */
-
 package io.github.moizalicious.student;
 
 import io.github.moizalicious.document.Document;
 import io.github.moizalicious.printer.LaserPrinter;
 import io.github.moizalicious.sleeper.ThreadSleeper;
 
+/**
+ * Thread class to represent a particular student who wants to print documents.
+ */
 public class Student extends Thread {
 
     private String name;

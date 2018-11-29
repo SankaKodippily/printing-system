@@ -1,12 +1,11 @@
-/**
- * Monitor class which imitates a mutually exclusive laser printer.
- */
-
 package io.github.moizalicious.printer;
 
 import io.github.moizalicious.document.Document;
 import io.github.moizalicious.sleeper.ThreadSleeper;
 
+/**
+ * Monitor class which imitates a mutually exclusive laser printer.
+ */
 public class LaserPrinter implements ServicePrinter {
 
     private String printerId;
