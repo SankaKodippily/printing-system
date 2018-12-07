@@ -5,8 +5,8 @@ set PRINT_ACTIONS = {student.acquire, technician.acquire, print, refill, release
 
 // Printer Process
 PRINTER(PAGES = MAX_PAGES) = PRINT_OR_REFILL[PAGES],
-PRINT_OR_REFILL[p: MIN_PAGES..MAX_PAGES] = (when(p > 0) student.acquire -> print -> release -> PRINT_OR_REFILL[p-1]
-											| when(p == 0) technician.acquire -> refill -> release -> PRINTER).
+PRINT_OR_REFILL[p: MIN_PAGES..MAX_PAGES] = (when(p > MIN_PAGES) student.acquire -> print -> release -> PRINT_OR_REFILL[p-1]
+											| when(p == MIN_PAGES) technician.acquire -> refill -> release -> PRINTER).
 
 // Student Process
 STUDENT (DOCS = 1) = (student.acquire -> PRINT[1]),
