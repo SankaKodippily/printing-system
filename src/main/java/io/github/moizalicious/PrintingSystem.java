@@ -42,7 +42,11 @@ public class PrintingSystem {
             // Safely terminate the Paper Technician thread
             paperTechnician.terminate();
             // Wait till the Paper Technician thread is terminated
-            while (paperTechnician.isAlive()) { /* DO NOTHING */ continue; }
+            try {
+                paperTechnician.join();
+            } catch (InterruptedException e) {
+                System.err.println(e);
+            }
         }
 
         // If Toner Technician thread is still alive then safely stop the thread
@@ -50,7 +54,11 @@ public class PrintingSystem {
             // Safely terminate the Toner Technician thread
             tonerTechnician.terminate();
             // Wait till the Toner Technician thread is terminated
-            while (tonerTechnician.isAlive()) { /* DO NOTHING */ continue; }
+            try {
+                tonerTechnician.join();
+            } catch (InterruptedException e) {
+                System.err.println(e);
+            }
         }
 
         // Print out final status of the printer

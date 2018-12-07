@@ -38,8 +38,8 @@ public class LaserPrinter implements ServicePrinter {
             tonerLevel = PagesPerTonerCartridge;
             System.out.println("Toner Replaced Successfully, Toner Level: " + tonerLevel + "\n");
             ThreadSleeper.sleep(2000);
-            notifyAll();
         }
+        notifyAll();
     }
 
     /**
@@ -58,8 +58,8 @@ public class LaserPrinter implements ServicePrinter {
             paperLevel = paperLevel + SheetsPerPack;
             System.out.println("Paper Refilled Successfully, Paper Level: " + paperLevel + "\n");
             ThreadSleeper.sleep(2000);
-            notifyAll();
         }
+        notifyAll();
     }
 
     /**
@@ -84,8 +84,8 @@ public class LaserPrinter implements ServicePrinter {
             System.out.println(document.toString());
             System.out.println(toString() + "\n");
             ThreadSleeper.sleep(2000);
-            notifyAll();
         }
+        notifyAll();
     }
 
     /**
