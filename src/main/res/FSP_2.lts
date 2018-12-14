@@ -1,22 +1,19 @@
-const MIN_PAGES = 0
-const MAX_PAGES = 3
+range PAGES = 0..3
 
-set PRINT_ACTIONS = {student.acquire, technician.acquire, print, refill, release}
+set PRINT_ACTIONS = {acquire, pages_left[PAGES], print, refill, release}
 
 // Printer Process
-PRINTER(PAGES = MAX_PAGES) = PRINT_OR_REFILL[PAGES],
-PRINT_OR_REFILL[p: MIN_PAGES..MAX_PAGES] = (when(p > MIN_PAGES) student.acquire -> print -> release -> PRINT_OR_REFILL[p-1]
-											| when(p == MIN_PAGES) technician.acquire -> refill -> release -> PRINTER).
+PRINTER = PRINTER_FREE,
+PRINTER_FREE = (acquire -> PRINTER_IN_USE),
+PRINTER_IN_USE = (pages_left[x:PAGES] -> if (x > 0) then (print -> release -> PRINTER_FREE | release -> PRINTER_FREE) else (refill -> release -> PRINTER_FREE | release -> PRINTER_FREE)).
 
 // Student Process
-STUDENT (DOCS = 1) = (student.acquire -> PRINT[1]),
-PRINT[i: 1..DOCS] = (print ->
-							if (i < DOCS) then (release -> student.acquire -> PRINT[i+1])
-							else (release -> END)) + PRINT_ACTIONS.
+STUDENT (DOCS = 1) = (acquire -> PRINT[1]),
+PRINT[i: 1..DOCS] = (pages_left[x:PAGES] -> if (x > 0) then (print -> if (i < DOCS) then (release -> acquire -> PRINT[i+1]) else (release -> END)) else (release -> acquire -> PRINT[i])) + PRINT_ACTIONS.
 
 // Technician Process
-TECHNICIAN = (technician.acquire -> REFILL),
-REFILL = (refill -> release -> TECHNICIAN) + PRINT_ACTIONS.
+TECHNICIAN = (acquire -> REFILL),
+REFILL = (pages_left[x:PAGES] -> if (x == 0) then (refill -> release -> TECHNICIAN) else (release -> TECHNICIAN)) + PRINT_ACTIONS.
 
 // Mutually Exclusive Printing System
 || PRINTING_SYSTEM = ({s1, s2, t} :: PRINTER || s1: STUDENT(2) || s2: STUDENT(3) || t: TECHNICIAN).
